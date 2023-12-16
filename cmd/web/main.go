@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	config "github.com/raindongz/booking-system/pkg/configs"
-	"github.com/raindongz/booking-system/pkg/handlers"
-	"github.com/raindongz/booking-system/pkg/render"
+	config "github.com/raindongz/booking-system/internal/configs"
+	"github.com/raindongz/booking-system/internal/handlers"
+	"github.com/raindongz/booking-system/internal/render"
 )
 
 const portNum = ":8080"

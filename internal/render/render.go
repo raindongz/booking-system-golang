@@ -7,8 +7,9 @@ import (
 	"path/filepath"
 	"text/template"
 
-	config "github.com/raindongz/booking-system/pkg/configs"
-	"github.com/raindongz/booking-system/pkg/models"
+	"github.com/justinas/nosurf"
+	config "github.com/raindongz/booking-system/internal/configs"
+	"github.com/raindongz/booking-system/internal/models"
 )
 
 //var tempMap = make(map[string]*template.Template)
@@ -19,12 +20,12 @@ func NewTemplate(a config.AppConfig){
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData{
-	
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData{
+	td.CSRFToken = nosurf.Token(r)	
 	return td
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData){
+func RenderTemplate(w http.ResponseWriter, tmpl string, r *http.Request, td *models.TemplateData){
 	var tc map[string]*template.Template
 	if app.UseCache{
 		//get the template cache from the app config
@@ -41,7 +42,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 	}
 
 	buf := new (bytes.Buffer)
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 	err := temp.Execute(buf, td)
 	if err != nil {
 		log.Println(err)

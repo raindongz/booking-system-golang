@@ -1,3 +1,89 @@
 {{template "base" .}} {{define "content"}}
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <h1 class="col text-center mt-4">Search for Availability</h1>
 
-{{end}}
+      <form action="/book" method="post" novalidate class="needs-validation">
+        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+        <!-- <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="start_date" class="form-label"
+                  >Starting Date</label
+                >
+                <input
+                  required
+                  type="date"
+                  class="form-control"
+                  id="start_date"
+                  name="start_date"
+                  aria-describedby="start_date_help"
+                />
+                <small id="start_date_help" class="form-text text-muted"
+                  >enter the starting date</small
+                >
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label for="end_date" class="form-label">Ending Date</label>
+                <input
+                  required
+                  type="date"
+                  class="form-control"
+                  id="end_date"
+                  name="end_date"
+                  aria-describedby="end_date_help"
+                />
+                <small id="end_date_help" class="form-text text-muted"
+                  >enter the ending date</small
+                >
+              </div>
+            </div>
+          </div> -->
+
+        <div class="row">
+          <div class="col">
+            <div class="row" id="reservation-dates">
+              <div class="col">
+                <input
+                  required
+                  class="form-control"
+                  type="text"
+                  name="start"
+                  placeholder="start date"
+                />
+              </div>
+              to
+              <div class="col">
+                <input
+                  required
+                  class="form-control"
+                  type="text"
+                  name="end"
+                  placeholder="end date"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <button type="submit" class="btn btn-primary">
+          Search Availability
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{{ end }}
+{{define "js"}}
+<script>
+  const elem = document.getElementById("reservation-dates");
+  const rangePicker = new DateRangePicker(elem, {
+    format: "yyyy-mm-dd",
+  });
+</script>
+{{ end }}

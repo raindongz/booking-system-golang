@@ -1,3 +1,104 @@
 {{template "base" .}} {{define "content"}}
+<div class="container mt-2">
+  <div class="row">
+    <div class="col">
+      <img
+        src="/static/images/room3.jpg"
+        class="img-fluid img-thumbnail mx-auto d-block room-image"
+        alt="room1 image"
+      />
+    </div>
+  </div>
 
-{{end}}
+  <div class="row">
+    <div class="col text-center mt-4">
+      <h1>Generals</h1>
+      <p>
+        Welcome to RoomReserve, the ultimate solution for effortless and
+        efficient room booking experiences. In today’s fast-paced world, finding
+        the perfect room for your stay, whether for a business trip, a family
+        vacation, or a spontaneous getaway, can be a daunting task. RoomReserve
+        simplifies this process with a user-friendly platform that offers a vast
+        array of options catering to all preferences and budgets. Our innovative
+        system not only allows you to browse and book accommodations with ease
+        but also provides detailed descriptions, high-quality images, and real
+        user reviews to ensure that you make an informed choice. With
+        RoomReserve, you can enjoy a hassle-free booking experience, exclusive
+        deals, and 24/7 customer support, all at your fingertips. Let
+        RoomReserve be your trusted partner in crafting memorable and
+        comfortable stays wherever you go.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-center">
+      <a id="check-availability" href="#!" class="btn btn-success"
+        >Check Availability
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <p>this is some text. this is some text</p>
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{define "js"}}
+<script>
+  document
+    .getElementById("check-availability")
+    .addEventListener("click", function () {
+      let html = `
+    <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+        <div class="row">
+            <div class="col">
+                <div class="row" id="reservation-dates-modal">
+                    <div class="col">
+                        <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+                    </div>
+                    <div class="col">
+                        <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+    `;
+      attention.custom({
+        callback: function (result) {
+          console.log("cancell");
+          const form = document.getElementById("check-availability-form");
+          const formData = new FormData(form);
+          formData.append("csrf_token", "{{.CSRFToken}}");
+
+          fetch("/book-json", {
+            method: "post",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+            });
+        },
+        title: "Choose your dates",
+        willOpen: () => {
+          const elem = document.getElementById("reservation-dates-modal");
+          const rp = new DateRangePicker(elem, {
+            format: "yyyy-mm-dd",
+            showOnFocus: true,
+          });
+        },
+        didOpen: () => {
+          document.getElementById("start").removeAttribute("disabled");
+          document.getElementById("end").removeAttribute("disabled");
+        },
+        msg: html,
+      });
+    });
+</script>
+{{ end }}
