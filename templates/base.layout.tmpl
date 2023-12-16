@@ -4,22 +4,269 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>my nice page</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    {{block "css" .}} {{end}}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://unpkg.com/notie/dist/notie.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+
+    <style></style>
   </head>
-  <div class="container">
-    <div class="row">
-      <div class="col"></div>
-    </div>
-  </div>
   <body>
-    {{block "content" .}} {{end}} {{block "js" .}} {{end}}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-warning-subtle">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Rooms
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/general"
+                    >General's Quarters</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/major">Major's suite</a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/book" aria-disabled="true">Book Now</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html" aria-disabled="true"
+                >Contact</a
+              >
+            </li>
+          </ul>
+          <!-- <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+        </div>
+      </div>
+    </nav>
+    {{block "content" .}} {{end}}
+    <div class="row my-footer">
+      <div class="col">left</div>
+      <div class="col">middle</div>
+      <div class="col">right</div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+    <script src="https://unpkg.com/notie"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
+    {{block "js" .}} {{end}}
+    <script>
+      let attention = Prompt();
+
+      (function () {
+        "use strict";
+        window.addEventListener(
+          "load",
+          function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            let forms = document.getElementsByClassName("needs-validation");
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+              form.addEventListener(
+                "submit",
+                function (event) {
+                  if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                  form.classList.add("was-validated");
+                },
+                false
+              );
+            });
+          },
+          false
+        );
+      })();
+
+      document
+        .getElementById("colorButton")
+        .addEventListener("click", function () {
+          let html = `
+    <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+        <div class="row">
+            <div class="col">
+                <div class="row" id="reservation-dates-modal">
+                    <div class="col">
+                        <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+                    </div>
+                    <div class="col">
+                        <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+    `;
+          attention.custom({
+            title: "Choose your dates",
+            msg: html,
+          });
+        });
+
+      const elem = document.getElementById("reservation-dates");
+      const rangePicker = new DateRangePicker(elem, {
+        format: "yyyy-mm-dd",
+      });
+
+      function notify(msg, msgType) {
+        notie.alert({
+          type: msgType,
+          text: msg,
+        });
+      }
+
+      function notifyModal(title, text, icon, confirmationButtonText) {
+        Swal.fire({
+          title: title,
+          html: text,
+          icon: icon,
+          confirmButtonText: confirmationButtonText,
+        });
+      }
+
+      function Prompt() {
+        let toast = function (c) {
+          const { msg = "", icon = "success", position = "top-end" } = c;
+
+          const Toast = Swal.mixin({
+            toast: true,
+            title: msg,
+            position: position,
+            icon: icon,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({});
+        };
+
+        let success = function (c) {
+          const { msg = "", title = "", footer = "" } = c;
+
+          Swal.fire({
+            icon: "success",
+            title: title,
+            text: msg,
+            footer: footer,
+          });
+        };
+
+        let error = function (c) {
+          const { msg = "", title = "", footer = "" } = c;
+
+          Swal.fire({
+            icon: "error",
+            title: title,
+            text: msg,
+            footer: footer,
+          });
+        };
+
+        async function custom(c) {
+          const { msg = "", title = "" } = c;
+
+          const { value: formValues } = await Swal.fire({
+            title: title,
+            html: msg,
+            backdrop: false,
+            focusConfirm: false,
+            showCancelButton: true,
+            willOpen: () => {
+              const elem = document.getElementById("reservation-dates-modal");
+              const rp = new DateRangePicker(elem, {
+                format: "yyyy-mm-dd",
+                showOnFocus: true,
+              });
+            },
+            didOpen: () => {
+              document.getElementById("start").removeAttribute("disabled");
+              document.getElementById("end").removeAttribute("disabled");
+            },
+            preConfirm: () => {
+              return [
+                document.getElementById("start").value,
+                document.getElementById("end").value,
+              ];
+            },
+          });
+
+          if (formValues) {
+            Swal.fire(JSON.stringify(formValues));
+          }
+        }
+
+        return {
+          toast: toast,
+          success: success,
+          error: error,
+          custom: custom,
+        };
+      }
+    </script>
+    <!--  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script> -->
   </body>
 </html>
 
