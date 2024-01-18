@@ -1,4 +1,7 @@
 package models
+
+import "github.com/raindongz/booking-system/internal/forms"
+
 //template data holds data send from handlers to templates
 type TemplateData struct {
 	StringMap map[string]string
@@ -9,4 +12,6 @@ type TemplateData struct {
 	Flash string
 	Warning string
 	Error string
+	Form *forms.Form
+	IsAuthenticated int
 }

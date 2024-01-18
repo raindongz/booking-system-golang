@@ -1,0 +1,2 @@
+-- INSERT INTO public.restrictions (id, restriction_name, created_at, updated_at) VALUES (1, 'Reservation', '2024-01-12 20:48:27.000000', '2024-01-13 20:48:27.000000');
+-- INSERT INTO public.restrictions (id, restriction_name, created_at, updated_at) VALUES (2, 'Owner Block', '2024-01-12 20:48:27.000000', '2024-01-13 20:48:27.000000');
